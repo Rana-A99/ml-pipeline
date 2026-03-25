@@ -7,7 +7,7 @@ with open("model_info.txt", "r") as f:
     run_id = f.read().strip()
 
 run = mlflow.get_run(run_id)
-accuracy = run.data.metrics.get("accuracy", 0)
+accuracy = float(run.data.metrics["accuracy"])
 
 print(f"Accuracy: {accuracy}")
 
