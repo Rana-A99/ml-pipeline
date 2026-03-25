@@ -16,7 +16,8 @@ jobs:
         with:
           python-version: "3.10"
 
-      - run: pip install mlflow
+      - name: Install deps
+        run: pip install mlflow
 
       - name: Train
         run: |
@@ -26,12 +27,14 @@ jobs:
         run: |
           grep "RUN_ID=" output.txt | cut -d '=' -f2 > model_info.txt
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload model_info
+        uses: actions/upload-artifact@v4
         with:
           name: model_info
           path: model_info.txt
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload mlruns
+        uses: actions/upload-artifact@v4
         with:
           name: mlruns
           path: mlruns
@@ -47,13 +50,16 @@ jobs:
         with:
           python-version: "3.10"
 
-      - run: pip install mlflow
+      - name: Install deps
+        run: pip install mlflow
 
-      - uses: actions/download-artifact@v4
+      - name: Download model_info
+        uses: actions/download-artifact@v4
         with:
           name: model_info
 
-      - uses: actions/download-artifact@v4
+      - name: Download mlruns
+        uses: actions/download-artifact@v4
         with:
           name: mlruns
           path: .
