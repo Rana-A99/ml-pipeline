@@ -1,9 +1,33 @@
-name: test
+name: ML Pipeline
 
 on: push
 
 jobs:
-  test:
+  validate:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "ok"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: pip install mlflow
+      - run: python train.py
+      - run: echo "0.9" > accuracy.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: accuracy
+          path: accuracy.txt
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - uses: actions/download-artifact@v4
+        with:
+          name: accuracy
+      - run: python check_threshold.py
+      - run: echo "Deploy success"
