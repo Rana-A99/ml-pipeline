@@ -32,4 +32,5 @@ jobs:
         with:
           name: accuracy
       - run: python check_threshold.py
-      - run: echo "Deploy success"
+      - name: Mock Deploy
+        run: echo "Building Docker image for Run ID $(cat model_info.txt)"
