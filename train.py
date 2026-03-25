@@ -1,6 +1,8 @@
-import mlflow
 import os
-mlflow.set_tracking_uri(os.environ["MLFLOW_TRACKING_URI"]) 
+import mlflow
+
+uri = os.environ.get("MLFLOW_TRACKING_URI", "file:./mlruns")
+mlflow.set_tracking_uri(uri)
 
 with mlflow.start_run() as run:
     accuracy = 0.9
