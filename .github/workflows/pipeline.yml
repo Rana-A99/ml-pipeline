@@ -68,4 +68,4 @@ jobs:
         run: python check_threshold.py
 
       - name: Mock Deploy
-        run: echo "Building Docker image for Run ID: $(cat model_info.txt)"
+        run: echo "Building Docker image for Run ID $(cat model_info.txt)"
