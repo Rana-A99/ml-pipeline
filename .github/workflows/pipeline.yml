@@ -33,11 +33,11 @@ jobs:
           name: model_info
           path: model_info.txt
 
-      - name: Upload mlruns
+      - name: Upload accuracy
         uses: actions/upload-artifact@v4
         with:
-          name: mlruns
-          path: mlruns
+          name: accuracy
+          path: accuracy.txt
 
   deploy:
     needs: validate
@@ -58,14 +58,13 @@ jobs:
         with:
           name: model_info
 
-      - name: Download mlruns
+      - name: Download accuracy
         uses: actions/download-artifact@v4
         with:
-          name: mlruns
-          path: .
+          name: accuracy
 
       - name: Check accuracy
         run: python check_threshold.py
 
       - name: Mock Deploy
-        run: echo "Building Docker image for Run ID $(cat model_info.txt)"
+        run: echo "Building Docker image for Run ID: $(cat model_info.txt)"
